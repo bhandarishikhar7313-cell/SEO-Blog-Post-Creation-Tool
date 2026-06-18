@@ -82,5 +82,5 @@ The application:
 ### Clone Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/bhandarishikhar7313-cell/SEO-Blog-Post-Creation-Tool
 cd BlogForge-AI

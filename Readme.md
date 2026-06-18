@@ -41,7 +41,7 @@ The application:
 
 ## System Architecture
 
-![Architecture](architecture.png)
+![Architecture](Architecture.png)
 
 ---
 

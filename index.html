@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BlogForge AI — SEO Blog Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">✍️</div>
+    BlogForge <span style="color:#c4b5fd;margin-left:.2rem">AI</span>
+  </div>
+  <div class="header-badge">TASK 2 — SEO BLOG TOOL</div>
+</header>
+
+<div class="hero-strip">
+  <h1>From <em>Product</em> to<br>Published Blog Post</h1>
+  <p>Scrape bestsellers → AI keywords → SEO post → auto-publish</p>
+  <div class="pipeline-row">
+    <div class="p-step active" id="ps1">🛒 Scrape Products</div>
+    <div class="p-arrow">→</div>
+    <div class="p-step" id="ps2">🔑 SEO Keywords</div>
+    <div class="p-arrow">→</div>
+    <div class="p-step" id="ps3">📝 Write Blog</div>
+    <div class="p-arrow">→</div>
+    <div class="p-step" id="ps4">🚀 Publish</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- STEP 1: PRODUCTS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon ic-green">🛒</div>
+      <div>
+        <div class="card-title">Scrape Bestsellers</div>
+        <div class="card-sub">Amazon India top-selling products</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
+
+      <div style="flex:1;min-width:220px">
+        <label>Select Category</label>
+        <select id="catSelect">
+          <option value="electronics">Electronics</option>
+          <option value="books">Books</option>
+          <option value="home">Home & Kitchen</option>
+          <option value="fashion">Fashion</option>
+          <option value="beauty">Beauty</option>
+          <option value="sports">Sports</option>
+          <option value="toys">Toys</option>
+          <option value="automotive">Automotive</option>
+          <option value="health">Health</option>
+          <option value="gaming">Gaming</option>
+          <option value="mobile">Mobile Phones</option>
+          <option value="laptops">Laptops</option>
+        </select>
+      </div>
+
+      <div style="flex:1;min-width:220px">
+        <label>Custom Category</label>
+        <input
+          type="text"
+          id="customCategory"
+          placeholder="e.g. DSLR Camera, Smart Watch, Coffee Maker"
+        >
+      </div>
+
+    </div>
+    <button class="btn btn-green btn-sm" onclick="scrapeProducts()" id="scrapeBtn">
+      <span id="scrapeBtnIcon">⚡</span> Scrape Now
+    </button>
+    <div id="productGrid" style="margin-top:1rem">
+      <div class="empty"><div class="ei">🛒</div><p>Click Scrape Now to load products</p></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: KEYWORDS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon ic-purple">🔑</div>
+      <div>
+        <div class="card-title">SEO Keywords</div>
+        <div class="card-sub">AI-generated target keywords</div>
+      </div>
+    </div>
+    <div id="selectedProductInfo" style="margin-bottom:1rem">
+      <div class="empty"><div class="ei">👆</div><p>Select a product first</p></div>
+    </div>
+    <button class="btn btn-purple btn-sm" onclick="getKeywords()" id="kwBtn" disabled>
+      <span id="kwBtnIcon">🤖</span> Generate Keywords
+    </button>
+    <div id="kwOutput" style="margin-top:1rem">
+      <div class="empty"><div class="ei">🔑</div><p>Keywords appear here</p></div>
+    </div>
+    <!-- SEO Score -->
+    <div id="seoScore" style="display:none;margin-top:1.2rem">
+      <div class="divider"></div>
+      <div style="font-size:.8rem;font-weight:600;margin-bottom:.5rem;color:var(--soft)">SEO Strength Indicators</div>
+      <div class="seo-bar">
+        <div class="seo-bar-label"><span>Search Volume</span><span id="sv">—</span></div>
+        <div class="seo-bar-track"><div class="seo-bar-fill fill-green" id="svBar" style="width:0%"></div></div>
+      </div>
+      <div class="seo-bar" style="margin-top:.6rem">
+        <div class="seo-bar-label"><span>Keyword Relevance</span><span id="kr">—</span></div>
+        <div class="seo-bar-track"><div class="seo-bar-fill fill-purple" id="krBar" style="width:0%"></div></div>
+      </div>
+      <div class="seo-bar" style="margin-top:.6rem">
+        <div class="seo-bar-label"><span>Competition</span><span id="comp">—</span></div>
+        <div class="seo-bar-track"><div class="seo-bar-fill fill-orange" id="compBar" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: BLOG POST (FULL WIDTH) -->
+  <div class="card full">
+    <div class="card-header">
+      <div class="card-icon ic-orange">📝</div>
+      <div>
+        <div class="card-title">AI Blog Post Generator</div>
+        <div class="card-sub">150-200 word SEO-optimised article</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+      <button class="btn btn-orange btn-sm" onclick="generateBlog()" id="blogBtn" disabled>
+        <span id="blogBtnIcon">✍️</span> Generate Blog Post
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="editBlog()" id="editBtn" style="display:none">✏️ Edit</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+      <!-- Blog preview -->
+      <div>
+        <div id="blogPreview">
+          <div class="empty"><div class="ei">📝</div><p>Generate a blog post to preview it here</p></div>
+        </div>
+      </div>
+      <!-- Blog editor -->
+      <div>
+        <div id="blogEditor" style="display:none">
+          <label>Blog Title</label>
+          <input type="text" id="blogTitleInput" style="margin-bottom:.75rem"/>
+          <label>Blog Content</label>
+          <textarea id="blogContentInput" style="min-height:220px"></textarea>
+          <div style="margin-top:.75rem;display:flex;gap:.5rem">
+            <button class="btn btn-purple btn-sm" onclick="saveEdit()">💾 Save</button>
+            <button class="btn btn-ghost btn-sm" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+        <div id="blogStats" style="display:none">
+          <div style="font-size:.82rem;font-weight:600;color:var(--soft);margin-bottom:.75rem">Content Analysis</div>
+          <div class="seo-bar">
+            <div class="seo-bar-label"><span>Word Count</span><span id="wcStat">0 words</span></div>
+            <div class="seo-bar-track"><div class="seo-bar-fill fill-green" id="wcBar" style="width:0%"></div></div>
+          </div>
+          <div class="seo-bar" style="margin-top:.6rem">
+            <div class="seo-bar-label"><span>Keyword Density</span><span id="kdStat">—</span></div>
+            <div class="seo-bar-track"><div class="seo-bar-fill fill-purple" id="kdBar" style="width:0%"></div></div>
+          </div>
+          <div class="seo-bar" style="margin-top:.6rem">
+            <div class="seo-bar-label"><span>Readability</span><span id="rdStat">—</span></div>
+            <div class="seo-bar-track"><div class="seo-bar-fill fill-orange" id="rdBar" style="width:0%"></div></div>
+          </div>
+          <div style="margin-top:1rem">
+            <div style="font-size:.8rem;font-weight:600;color:var(--soft);margin-bottom:.5rem">Keywords Used</div>
+            <div id="kwUsedTags" class="kw-tags"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: PUBLISH -->
+  <div class="card full">
+    <div class="card-header">
+      <div class="card-icon ic-blue">🚀</div>
+      <div>
+        <div class="card-title">Publish to Blogger</div>
+        <div class="card-sub">Auto-post to your Blogger</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+      <div>
+        <label>Blogger Site</label>
+        <input type="text" value="https://shikharbhandari.blogspot.com" readonly style="margin-bottom:1rem"/>
+
+        <div style="padding:1rem;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.03);font-size:.85rem;margin-bottom:1rem">
+          ✅ Blogger API Connected<br>
+          ✅ OAuth Authentication Enabled<br>
+          ✅ Ready for Automatic Publishing
+        </div>
+
+        <div style="margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn btn-blue" onclick="publishPost()" id="publishBtn" disabled>
+            <span id="publishBtnIcon">🚀</span> Publish to Blogger
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="copyMarkdown()">📋 Copy as Markdown</button>
+        </div>
+      </div>
+      <div id="publishResult">
+        <div class="empty"><div class="ei">🌐</div><p>Publish result will appear here</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
